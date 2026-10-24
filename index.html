@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Explore public GitHub profiles, repositories, engineering activity, and language analytics." />
+  <meta property="og:title" content="GitHub Profile Explorer" />
+  <meta property="og:description" content="A live, searchable dashboard for public GitHub profiles and repositories." />
+  <meta property="og:type" content="website" />
+  <title>GitHub Profile Explorer — Engineering Signals</title>
+  <link rel="preconnect" href="https://api.github.com" />
+  <link rel="preconnect" href="https://avatars.githubusercontent.com" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="GitHub Profile Explorer home">
+      <span class="brand-mark" aria-hidden="true">GH</span>
+      <span><strong>Profile Explorer</strong><small>PUBLIC ENGINEERING SIGNALS</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="live-pill"><i></i> LIVE PUBLIC DATA</span>
+      <button id="theme-toggle" class="icon-button" type="button" aria-label="Switch color theme" title="Switch theme">☼</button>
+      <a class="icon-button github-link" href="https://github.com/Balu-Nagireddy/BaluNagireddy" target="_blank" rel="noreferrer" aria-label="View source repository" title="View source">↗</a>
+    </div>
+  </header>
+
+  <main id="main" class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> THE OPEN-SOURCE SIGNAL, AT A GLANCE</div>
+        <h1>Look beyond the<br /><span>profile. Find the signal.</span></h1>
+        <p>Explore public GitHub profiles through their repositories, engineering activity, and technology footprint — all in one live workspace.</p>
+      </div>
+      <div class="hero-aside" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-core">GH<span>↗</span></div><div class="orbit-label label-a">REPOS</div><div class="orbit-label label-b">ACTIVITY</div><div class="orbit-label label-c">STACK</div></div>
+    </section>
+
+    <section class="search-panel" aria-label="Search GitHub profile">
+      <form id="search-form" class="search-form">
+        <label class="sr-only" for="username-input">GitHub username</label>
+        <span class="search-glyph" aria-hidden="true">⌕</span>
+        <input id="username-input" name="username" type="search" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Enter a GitHub username (e.g. torvalds)" required />
+        <button id="search-button" class="primary-button" type="submit"><span>Explore profile</span><span aria-hidden="true">↗</span></button>
+      </form>
+      <div class="search-foot"><span>TRY A PROFILE</span><div id="quick-profiles" class="quick-profiles">
+        <button type="button" data-user="torvalds">torvalds</button><button type="button" data-user="sindresorhus">sindresorhus</button><button type="button" data-user="addyosmani">addyosmani</button><button type="button" data-user="kentcdodds">kentcdodds</button><button type="button" data-user="Balu-Nagireddy">Balu-Nagireddy</button>
+      </div></div>
+      <div id="status-message" class="status-message" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <section id="welcome-state" class="welcome-state">
+      <div class="welcome-icon">⌘</div><h2>Choose a profile to get started</h2><p>Search any public GitHub username to load real profile data, repository metrics, languages, and recent events.</p>
+      <div class="welcome-points"><span>↗ Live REST API</span><span>◈ Repository intelligence</span><span>⌁ Shareable profile URLs</span></div>
+    </section>
+
+    <section id="dashboard" hidden>
+      <section class="profile-card panel">
+        <div class="profile-main">
+          <img id="avatar" class="avatar" alt="" />
+          <div class="profile-identity"><div class="identity-top"><h2 id="profile-name">—</h2><span id="profile-type" class="type-badge">USER</span></div><a id="profile-login" class="profile-login" href="#" target="_blank" rel="noreferrer">@username ↗</a><p id="profile-bio" class="profile-bio"></p><div id="profile-meta" class="profile-meta"></div></div>
+        </div>
+        <div class="profile-actions"><a id="github-profile-link" class="secondary-button" href="#" target="_blank" rel="noreferrer">View GitHub profile ↗</a><button id="share-button" class="secondary-button" type="button">Copy share link ⤴</button></div>
+        <div class="profile-socials" id="profile-socials"></div>
+      </section>
+
+      <section class="stats-grid" aria-label="Profile statistics">
+        <article class="stat-card panel"><div class="stat-label">PUBLIC REPOSITORIES <span>▤</span></div><div id="stat-repos" class="stat-value">—</div><div class="stat-note">Public projects</div></article>
+        <article class="stat-card panel"><div class="stat-label">STARS EARNED <span>☆</span></div><div id="stat-stars" class="stat-value">—</div><div class="stat-note">Across listed repositories</div></article>
+        <article class="stat-card panel"><div class="stat-label">FORKS <span>⑂</span></div><div id="stat-forks" class="stat-value">—</div><div class="stat-note">Community forks</div></article>
+        <article class="stat-card panel"><div class="stat-label">OPEN ISSUES <span>◉</span></div><div id="stat-issues" class="stat-value">—</div><div class="stat-note">Repository issue count*</div></article>
+      </section>
+
+      <section class="analytics-grid">
+        <article class="panel section-panel language-panel"><div class="section-heading"><div><span class="section-kicker">TECHNOLOGY FOOTPRINT</span><h3>Language distribution</h3></div><span class="heading-icon">◉</span></div><div id="language-chart" class="language-chart"><div class="empty-inline">Language data will appear here.</div></div><div id="language-legend" class="language-legend"></div><p class="micro-note">Based on primary language reported by each public repository.</p></article>
+        <article class="panel section-panel stars-panel"><div class="section-heading"><div><span class="section-kicker">COMMUNITY REACH</span><h3>Top repositories by stars</h3></div><span class="heading-icon">↗</span></div><div id="stars-chart" class="stars-chart"><div class="empty-inline">Repository data will appear here.</div></div></article>
+      </section>
+
+      <section class="panel section-panel heatmap-panel"><div class="section-heading"><div><span class="section-kicker">PUBLIC EVENT HISTORY</span><h3>Activity pulse</h3></div><div class="heatmap-legend"><span>Less</span><i class="heat-0"></i><i class="heat-1"></i><i class="heat-2"></i><i class="heat-3"></i><i class="heat-4"></i><span>More</span></div></div><div id="activity-heatmap" class="heatmap-wrap"><div class="empty-inline">Load a profile to view public activity events.</div></div><p class="micro-note">This is an event-based activity view, not GitHub's private contribution graph. The public Events API has a limited recent-history window.</p></section>
+
+      <section class="content-grid">
+        <div class="main-column">
+          <section class="panel section-panel repos-panel">
+            <div class="section-heading repo-heading"><div><span class="section-kicker">BUILDING IN PUBLIC</span><h3>Repositories <span id="repo-count" class="count-pill">0</span></h3></div><label class="repo-search"><span aria-hidden="true">⌕</span><span class="sr-only">Filter repositories</span><input id="repo-search" type="search" placeholder="Search repositories..." /></label></div>
+            <div class="repo-controls"><label><span class="sr-only">Filter by language</span><select id="language-filter"><option value="">All languages</option></select></label><div class="sort-control"><span>Sort by</span><select id="repo-sort" aria-label="Sort repositories"><option value="stars">Most stars</option><option value="updated">Recently updated</option><option value="name">Name A–Z</option></select></div></div>
+            <div id="repo-list" class="repo-list"></div><button id="load-more" class="load-more" type="button" hidden>Load more repositories ↓</button>
+            <div id="repo-empty" class="empty-state" hidden><span>⌕</span><strong>No matching repositories</strong><p>Try a different keyword or language.</p></div>
+          </section>
+        </div>
+        <aside class="side-column">
+          <section class="panel section-panel activity-panel"><div class="section-heading"><div><span class="section-kicker">WHAT'S HAPPENING</span><h3>Recent activity</h3></div><span class="heading-icon">⌁</span></div><div id="activity-list" class="activity-list"></div></section>
+          <section class="panel section-panel history-panel"><div class="section-heading"><div><span class="section-kicker">YOUR SESSION</span><h3>Recent searches</h3></div><button id="clear-history" class="text-button" type="button">Clear</button></div><div id="search-history" class="search-history"><p class="empty-inline">Profiles you search will appear here on this device.</p></div></section>
+          <section class="panel note-panel"><div class="note-icon">i</div><div><strong>Public data, transparent limits</strong><p>This explorer uses GitHub's public REST API. Unauthenticated requests are rate-limited. Add a personal access token only on a trusted device if you need a higher quota.</p><a href="https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api" target="_blank" rel="noreferrer">Read API rate limits ↗</a></div></section>
+        </aside>
+      </section>
+      <footer class="dashboard-footer"><span>DATA SOURCE: GITHUB PUBLIC REST API</span><span id="last-updated">Waiting for profile data</span><button id="refresh-button" type="button">↻ Refresh data</button></footer>
+    </section>
+    <footer class="site-footer"><span>BUILT FOR OPEN-SOURCE DISCOVERY</span><span>GitHub Profile Explorer <b>·</b> <a href="https://github.com/Balu-Nagireddy" target="_blank" rel="noreferrer">Balu-Nagireddy ↗</a></span></footer>
+  </main>
+
+  <div id="repo-modal" class="modal-backdrop" hidden>
+    <section class="repo-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-top"><div><span class="section-kicker">REPOSITORY DETAILS</span><h2 id="modal-title">Repository</h2></div><button id="close-modal" class="icon-button" type="button" aria-label="Close repository details">×</button></div>
+      <div id="modal-content" class="modal-content"></div>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
