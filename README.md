@@ -22,7 +22,7 @@ I build reliable backend systems, delivery automation, and practical developer t
 
 | Project | Focus |
 |---|---|
-| [PayPilot](https://github.com/Balu-Nagireddy) | Payment reliability concepts: idempotency, retry orchestration, circuit breaking, and decline insights |
+| [AI Job Application Automation Platform](https://github.com/Balu-Nagireddy/ai-job-application-automation-platform) | Full-stack career tooling, job workflows, and AI-assisted resume analysis |
 | [Databricks ELT Pipeline](https://github.com/Balu-Nagireddy/databricks-dbt-pipeline) | Data pipelines, Spark, dbt, and cloud monitoring |
 | [VeriDedup](https://github.com/Balu-Nagireddy/VeriDedup) | Java full stack and secure data deduplication concepts |
 | [Java Full Stack](https://github.com/Balu-Nagireddy/Java-Full-Stack) | Java application development and full-stack fundamentals |
